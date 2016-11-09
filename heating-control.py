@@ -23,6 +23,16 @@ if __name__ == '__main__':
                     'soll': 'Temp_EG_Kueche_soll', 
                     'ist': 'Temp_EG_Kueche_akt',
                     'switch': 'Heat_Kueche'
+                }, 
+                {
+                    'soll': 'Temp_EG_Arbeitszimmer_soll', 
+                    'ist': 'Temp_EG_Arbeitszimmer_akt',
+                    'switch': 'Heat_Arbeitszimmer'
+                }, 
+                {
+                    'soll': 'Temp_EG_Klo_soll', 
+                    'ist': 'Temp_EG_Klo_akt',
+                    'switch': 'Heat_Klo'
                 }
             ]
 
