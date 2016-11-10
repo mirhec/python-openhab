@@ -3,8 +3,18 @@ import datetime
 import openhab
 from openhab import Item
 from time import sleep
+import RPi.GPIO as GPIO
 
 if __name__ == '__main__':
+    # RPi.GPIO Layout verwenden (wie Pin-Nummern)
+    GPIO.setmode(GPIO.BOARD)
+
+    # Pin 18 (GPIO 24) auf Input setzen
+    GPIO.setup(3, GPIO.OUT)
+    GPIO.setup(5, GPIO.OUT)
+    GPIO.setup(7, GPIO.OUT)
+    GPIO.setup(8, GPIO.OUT)
+
     while 1:
         try:
             base_url = 'http://openhab:8080/rest'
@@ -17,22 +27,26 @@ if __name__ == '__main__':
                 {
                     'soll': 'Temp_EG_Wohnzimmer_soll', 
                     'ist': 'Temp_EG_Wohnzimmer_akt',
-                    'switch': 'Heat_Wohnzimmer'
+                    'switch': 'Heat_Wohnzimmer',
+                    'gpio': 3
                 }, 
                 {
                     'soll': 'Temp_EG_Kueche_soll', 
                     'ist': 'Temp_EG_Kueche_akt',
-                    'switch': 'Heat_Kueche'
+                    'switch': 'Heat_Kueche',
+                    'gpio': 5
                 }, 
                 {
                     'soll': 'Temp_EG_Arbeitszimmer_soll', 
                     'ist': 'Temp_EG_Arbeitszimmer_akt',
-                    'switch': 'Heat_Arbeitszimmer'
+                    'switch': 'Heat_Arbeitszimmer',
+                    'gpio': 7
                 }, 
                 {
                     'soll': 'Temp_EG_Klo_soll', 
                     'ist': 'Temp_EG_Klo_akt',
-                    'switch': 'Heat_Klo'
+                    'switch': 'Heat_Klo',
+                    'gpio': 8
                 }
             ]
 
@@ -49,6 +63,13 @@ if __name__ == '__main__':
                     if ist.state >= soll.state + 1 and switch.state != 'OFF':
                         switch.state = 'OFF'
                         print('Disabled heating for %s' % switch.name)
+                    
+                    if(switch.state == 'ON'):
+                        # set switch ON
+                        GPIO.output(temp['gpio'], GPIO.HIGH)
+                    else:
+                        # set switch off
+                        GPIO.output(temp['gpio'], GPIO.LOW)
                 sleep(1)
         except:
             print('Error occured, try again!')
