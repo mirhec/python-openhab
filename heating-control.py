@@ -56,11 +56,12 @@ if __name__ == '__main__':
                     soll = items.get(temp['soll'])
                     ist = items.get(temp['ist'])
                     switch = items.get(temp['switch'])
-                    if ist.state <= soll.state - 1 and switch.state != 'ON':
+                    
+                    if ist.state <= soll.state - .5 and switch.state != 'ON':
                         switch.state = 'ON'
                         print('Enabled heating for %s' % switch.name)
                     
-                    if ist.state >= soll.state + 1 and switch.state != 'OFF':
+                    if ist.state >= soll.state + .5 and switch.state != 'OFF':
                         switch.state = 'OFF'
                         print('Disabled heating for %s' % switch.name)
                     
