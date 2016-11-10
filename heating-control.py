@@ -66,10 +66,10 @@ if __name__ == '__main__':
                     
                     if(switch.state == 'ON'):
                         # set switch ON
-                        GPIO.output(temp['gpio'], GPIO.HIGH)
+                        GPIO.output(temp['gpio'], GPIO.LOW)
                     else:
                         # set switch off
-                        GPIO.output(temp['gpio'], GPIO.LOW)
+                        GPIO.output(temp['gpio'], GPIO.HIGH)
                 sleep(1)
         except:
             print('Error occured, try again!')
