@@ -6,14 +6,41 @@ from time import sleep
 import RPi.GPIO as GPIO
 
 if __name__ == '__main__':
-    # RPi.GPIO Layout verwenden (wie Pin-Nummern)
+    # define temp items
+    temps = [
+        {
+            'soll': 'Temp_EG_Wohnzimmer_soll', 
+            'ist': 'Temp_EG_Wohnzimmer_akt',
+            'switch': 'Heat_Wohnzimmer',
+            'gpio': [22, 24, 26]
+        }, 
+        {
+            'soll': 'Temp_EG_Kueche_soll', 
+            'ist': 'Temp_EG_Kueche_akt',
+            'switch': 'Heat_Kueche',
+            'gpio': [8]
+        }, 
+        {
+            'soll': 'Temp_EG_Arbeitszimmer_soll', 
+            'ist': 'Temp_EG_Arbeitszimmer_akt',
+            'switch': 'Heat_Arbeitszimmer',
+            'gpio': [10]
+        }, 
+        {
+            'soll': 'Temp_EG_Klo_soll', 
+            'ist': 'Temp_EG_Klo_akt',
+            'switch': 'Heat_Klo',
+            'gpio': [12]
+        }
+    ]
+
+    # Use RPi.GPIO layout (pin numbering)
     GPIO.setmode(GPIO.BOARD)
 
-    # Pin 18 (GPIO 24) auf Input setzen
-    GPIO.setup(3, GPIO.OUT)
-    GPIO.setup(5, GPIO.OUT)
-    GPIO.setup(7, GPIO.OUT)
-    GPIO.setup(8, GPIO.OUT)
+    # Setup pins
+    for t in temps:
+        for gpio in t['gpio']:
+            GPIO.setup(gpio, GPIO.OUT)
 
     while 1:
         try:
@@ -21,34 +48,6 @@ if __name__ == '__main__':
 
             # fetch all items
             items = openhab.fetch_all_items(base_url)
-
-            # define items
-            temps = [
-                {
-                    'soll': 'Temp_EG_Wohnzimmer_soll', 
-                    'ist': 'Temp_EG_Wohnzimmer_akt',
-                    'switch': 'Heat_Wohnzimmer',
-                    'gpio': 3
-                }, 
-                {
-                    'soll': 'Temp_EG_Kueche_soll', 
-                    'ist': 'Temp_EG_Kueche_akt',
-                    'switch': 'Heat_Kueche',
-                    'gpio': 5
-                }, 
-                {
-                    'soll': 'Temp_EG_Arbeitszimmer_soll', 
-                    'ist': 'Temp_EG_Arbeitszimmer_akt',
-                    'switch': 'Heat_Arbeitszimmer',
-                    'gpio': 7
-                }, 
-                {
-                    'soll': 'Temp_EG_Klo_soll', 
-                    'ist': 'Temp_EG_Klo_akt',
-                    'switch': 'Heat_Klo',
-                    'gpio': 8
-                }
-            ]
 
             # get temp item
             while 1:
@@ -67,10 +66,12 @@ if __name__ == '__main__':
                     
                     if(switch.state == 'ON'):
                         # set switch ON
-                        GPIO.output(temp['gpio'], GPIO.LOW)
+                        for gpio in temp['gpio']:
+                            GPIO.output(gpio, GPIO.LOW)
                     else:
                         # set switch off
-                        GPIO.output(temp['gpio'], GPIO.HIGH)
+                        for gpio in temp['gpio']:
+                            GPIO.output(gpio, GPIO.HIGH)
                 sleep(1)
         except:
             print('Error occured, try again!')
