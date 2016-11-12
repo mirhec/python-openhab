@@ -41,6 +41,7 @@ if __name__ == '__main__':
     for t in temps:
         for gpio in t['gpio']:
             GPIO.setup(gpio, GPIO.OUT)
+            GPIO.output(gpio, GPIO.HIGH) # set switch off (relais are inverted)
 
     while 1:
         try:
