@@ -39,16 +39,15 @@ if __name__ == '__main__':
     GPIO.setmode(GPIO.BOARD)
 
     # Setup pins
-    for t in temps:
-        for gpio in t['gpio']:
-            print('setup pin %s as output' % gpio)
-            GPIO.setup(gpio, GPIO.OUT)
-            sleep(.5)
-            print('switch on pin %s' % gpio)
-            GPIO.output(gpio, GPIO.LOW) # set switch on (relais are inverted)
-            sleep(.5)
-            print('switch off pin %s' % gpio)
-            GPIO.output(gpio, GPIO.HIGH) # set switch off (relais are inverted)
+    for gpio in [8, 10, 12, 16, 18, 22, 24, 26]:
+        print('setup pin %s as output' % gpio)
+        GPIO.setup(gpio, GPIO.OUT)
+        sleep(.5)
+        print('switch on pin %s' % gpio)
+        GPIO.output(gpio, GPIO.LOW) # set switch on (relais are inverted)
+        sleep(.5)
+        print('switch off pin %s' % gpio)
+        GPIO.output(gpio, GPIO.HIGH) # set switch off (relais are inverted)
 
     while 1:
         try:
