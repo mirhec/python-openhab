@@ -35,6 +35,7 @@ if __name__ == '__main__':
     ]
 
     # Use RPi.GPIO layout (pin numbering)
+    GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BOARD)
 
     # Setup pins
