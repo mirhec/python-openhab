@@ -6,6 +6,7 @@ from time import sleep
 import RPi.GPIO as GPIO
 
 if __name__ == '__main__':
+    ###### BEGIN EDIT SECTION
     # define temp items
     temps = [
         {
@@ -33,6 +34,7 @@ if __name__ == '__main__':
             'gpio': [12]
         }
     ]
+    ###### END EDIT SECTION
 
     # Use RPi.GPIO layout (pin numbering)
     # GPIO.setwarnings(False)
@@ -80,5 +82,7 @@ if __name__ == '__main__':
                         for gpio in temp['gpio']:
                             GPIO.output(gpio, GPIO.HIGH)
                 sleep(1)
+        except KeyboardInterrupt:
+            raise
         except:
             print('Error occured, try again!')
