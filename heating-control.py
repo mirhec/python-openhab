@@ -4,6 +4,7 @@ import openhab
 from openhab import Item
 from time import sleep
 import RPi.GPIO as GPIO
+import sys
 
 if __name__ == '__main__':
     ###### BEGIN EDIT SECTION
@@ -41,18 +42,23 @@ if __name__ == '__main__':
     GPIO.setmode(GPIO.BOARD)
 
     # Setup pins
+    print('Setup pins ')
     for gpio in [8, 10, 12, 16, 18, 22, 24, 26]:
-        print('setup pin %s as output' % gpio)
+        sys.stdout.write('out ' + gpio + ', ')
+        #print('setup pin %s as output' % gpio)
         GPIO.setup(gpio, GPIO.OUT)
-        sleep(.5)
-        print('switch on pin %s' % gpio)
+        sleep(.1)
+        # print('switch on pin %s' % gpio)
         GPIO.output(gpio, GPIO.LOW) # set switch on (relais are inverted)
-        sleep(.5)
-        print('switch off pin %s' % gpio)
+        sleep(.1)
+        # print('switch off pin %s' % gpio)
         GPIO.output(gpio, GPIO.HIGH) # set switch off (relais are inverted)
+    print('done.')
 
     while 1:
         try:
+            print("I'm up and running ...")
+            
             base_url = 'http://openhab:8080/rest'
 
             # fetch all items
