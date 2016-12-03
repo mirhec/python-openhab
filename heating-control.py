@@ -44,7 +44,7 @@ if __name__ == '__main__':
     # Setup pins
     print('Setup pins ')
     for gpio in [8, 10, 12, 16, 18, 22, 24, 26]:
-        sys.stdout.write('out ' + gpio + ', ')
+        sys.stdout.write('out ' + str(gpio) + ', ')
         #print('setup pin %s as output' % gpio)
         GPIO.setup(gpio, GPIO.OUT)
         sleep(.1)
