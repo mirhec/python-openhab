@@ -4,7 +4,6 @@ import openhab
 from openhab import Item
 from time import sleep
 import RPi.GPIO as GPIO
-import sys
 
 if __name__ == '__main__':
     ###### BEGIN EDIT SECTION
@@ -42,10 +41,9 @@ if __name__ == '__main__':
     GPIO.setmode(GPIO.BOARD)
 
     # Setup pins
-    print('Setup pins ')
+    print('Setup pins ... ')
     for gpio in [8, 10, 12, 16, 18, 22, 24, 26]:
-        sys.stdout.write('out ' + str(gpio) + ', ')
-        #print('setup pin %s as output' % gpio)
+        print('  -> pin %s as output' % gpio)
         GPIO.setup(gpio, GPIO.OUT)
         sleep(.1)
         # print('switch on pin %s' % gpio)
